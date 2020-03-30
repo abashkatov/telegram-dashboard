@@ -10,7 +10,13 @@
 
 <script>
     export default {
-        name: "Main"
+        name: "Main",
+        data() {
+            return {
+            }
+        },
+        async mounted() {
+        }
     }
 </script>
 
