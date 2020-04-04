@@ -4,7 +4,7 @@ export default {
     actions: {
         async signup(context, data) {
             Vue.prototype.$http({
-                url: 'http://localhost:8090/registration',
+                url: process.env.VUE_APP_BASE_URI + '/registration',
                 data: data,
                 method: 'POST'
             })

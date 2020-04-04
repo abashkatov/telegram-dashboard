@@ -14,7 +14,9 @@
 
     export default {
         name: "Main",
-        computed: mapGetters(['getToken']),
+        computed: {
+            ...mapGetters(['getToken']),
+        },
         data() {
             return {
             }
