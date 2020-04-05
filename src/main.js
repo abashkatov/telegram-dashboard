@@ -4,7 +4,9 @@ import store from './store'
 import Axios from 'axios'
 import App from './App.vue'
 import routes from './routes';
+import CoreuiVue from '@coreui/vue';
 
+Vue.use(CoreuiVue);
 Vue.prototype.$http = Axios;
 const token = localStorage.getItem('token');
 if (token) {
