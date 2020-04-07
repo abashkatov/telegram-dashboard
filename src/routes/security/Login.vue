@@ -6,7 +6,7 @@
                     @submit.prevent="signin"
             >
                 <CRow>
-                    <CCol sm="4">
+                    <CCol sm="6" class="offset-sm-3">
                         <CInput
                                 label="User name"
                                 placeholder="Username"
@@ -15,25 +15,24 @@
                                 type="text"
                         />
                     </CCol>
-                    <CCol sm="4">
+                </CRow><CRow>
+                    <CCol sm="6" class="offset-sm-3">
                         <CInput
                                 label="Password"
                                 placeholder="Password"
                                 id="password" required autofocus
                                 v-model="password"
-                                type="text"
+                                type="password"
                         />
                     </CCol>
-                    <CCol sm="4">
+                </CRow><CRow>
+                    <CCol sm="6" class="offset-sm-3">
                         <CButton
-                                text="Signup"
+                                class="btn-primary"
+                                text="Signin"
                                 type="submit"
-                        />
+                        >Signup</CButton>
                     </CCol>
-
-                <CButton
-                        class="btn-success"
-                        type="submit">Signup</CButton>
                 </CRow>
             </CForm>
             <ul class="list-unstyled">

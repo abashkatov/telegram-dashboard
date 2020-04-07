@@ -1,22 +1,68 @@
 <template>
     <div>
-        <h1>Регистрация</h1>
-        <form class="login" @submit.prevent="register">
-            <label for="username">User name</label>
-            <input id="username" required autofocus v-model="username" type="text" placeholder="Username"/>
-            <label for="email">Email</label>
-            <input id="email" required v-model="email" type="text" placeholder="Email"/>
-            <label for="password">Password</label>
-            <input id="password" required v-model="password" type="password" placeholder="Password"/>
-            <label for="passwordConfirm">Confirm Password</label>
-            <input id="passwordConfirm" required v-model="passwordConfirm" type="password" placeholder="Confirm Password"/>
-            <hr/>
-            <button type="submit">Signup</button>
-        </form>
+        <CContainer>
+            <h1>Регистрация</h1>
+            <CForm
+                    class="login"
+                    @submit.prevent="signin"
+            >
+                <CRow>
+                    <CCol sm="6" class="offset-sm-3">
+                        <CInput
+                                label="User name"
+                                placeholder="Username"
+                                id="username" required autofocus
+                                v-model="username"
+                                type="text"
+                        />
+                    </CCol>
+                </CRow>
+                <CRow>
+                    <CCol sm="6" class="offset-sm-3">
+                        <CInput
+                                label="Email"
+                                placeholder="Email"
+                                id="email" required autofocus
+                                v-model="email"
+                                type="email"
+                        />
+                    </CCol>
+                </CRow><CRow>
+                    <CCol sm="6" class="offset-sm-3">
+                        <CInput
+                                label="Password"
+                                placeholder="Password"
+                                id="password" required autofocus
+                                v-model="password"
+                                type="text"
+                        />
+                    </CCol>
+                </CRow><CRow>
+                </CRow><CRow>
+                    <CCol sm="6" class="offset-sm-3">
+                        <CInput
+                                label="Confirm Password"
+                                placeholder="Confirm Password"
+                                id="passwordConfirm" required autofocus
+                                v-model="passwordConfirm"
+                                type="password"
+                        />
+                    </CCol>
+                </CRow><CRow>
+                    <CCol sm="6" class="offset-sm-3">
+                        <CButton
+                                class="btn-primary"
+                                text="Signup"
+                                type="submit"
+                        >Signup</CButton>
+                    </CCol>
+                </CRow>
+            </CForm>
 
-        <ul>
-            <li><router-link to="/">На главную</router-link></li>
-        </ul>
+            <ul class="list-unstyled">
+                <li><router-link to="/">На главную</router-link></li>
+            </ul>
+        </CContainer>
     </div>
 </template>
 
@@ -34,7 +80,7 @@
         },
         methods: {
             ...mapActions(['signup']),
-            register: function () {
+            signup: function () {
                 let data = {
                     username: this.username,
                     email: this.email,

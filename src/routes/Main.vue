@@ -1,10 +1,12 @@
 <template>
     <div>
-        <h1>Главная</h1>
-        <ul>
-            <li><router-link to="/login">Вход</router-link></li>
-            <li><router-link to="/register">Регистрация</router-link></li>
-        </ul>
+        <CContainer>
+            <h1>TB2ls</h1>
+            <ul class="list-unstyled">
+                <li><router-link to="/login">Вход</router-link></li>
+                <li><router-link to="/register">Регистрация</router-link></li>
+            </ul>
+        </CContainer>
     </div>
 </template>
 
