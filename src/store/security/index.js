@@ -10,13 +10,12 @@ export default {
             })
             .then(response => {
                 context.commit('signin', {
-                    token: response.data.token,
-                    user: response.data.user
+                    user: response.data
                 });
             })
             .catch(err => {
                 console.log(err);
-                localStorage.removeItem('token');
+                localStorage.removeItem('user');
             });
         },
         async signin(context, data) {
@@ -27,13 +26,12 @@ export default {
             })
             .then(response => {
                 context.commit('signin', {
-                    token: response.data.token,
-                    user: response.data.user
+                    user: response.data
                 });
             })
             .catch(err => {
                 console.log(err);
-                localStorage.removeItem('token');
+                localStorage.removeItem('user');
             });
         },
         logout(context) {
@@ -41,29 +39,27 @@ export default {
         }
     },
     mutations: {
-        signin(state, {token, user}) {
-            state.token = token;
+        signin(state, {user}) {
             state.user = user;
-            localStorage.setItem('token', token);
-            Vue.prototype.$http.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            localStorage.setItem('user', JSON.stringify(user));
+            Vue.prototype.$http.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
         },
         logout: function (state) {
-            state.token = null;
             state.user = null;
-            localStorage.removeItem('token');
-            Vue.prototype.$http.defaults.headers.common['Authorization'] = undefined;
+            localStorage.removeItem('user');
+            delete Vue.prototype.$http.defaults.headers.common['Authorization'];
         }
     },
     state: {
-        token: localStorage.getItem('token') || '',
-        user : {},
+        user : JSON.parse(localStorage.getItem('user') || '{}'),
     },
     getters: {
         getToken(state) {
-            return state.token;
+            return state.user.token || '';
         },
         getUser(state) {
             return state.user;
         },
+        isLoggedIn: state => !!state.user.token,
     },
 }

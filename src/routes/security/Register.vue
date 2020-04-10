@@ -4,7 +4,7 @@
             <h1>Регистрация</h1>
             <CForm
                     class="login"
-                    @submit.prevent="signin"
+                    @submit.prevent="submitForm"
             >
                 <CRow>
                     <CCol sm="6" class="offset-sm-3">
@@ -34,7 +34,7 @@
                                 placeholder="Password"
                                 id="password" required autofocus
                                 v-model="password"
-                                type="text"
+                                type="password"
                         />
                     </CCol>
                 </CRow><CRow>
@@ -52,7 +52,6 @@
                     <CCol sm="6" class="offset-sm-3">
                         <CButton
                                 class="btn-primary"
-                                text="Signup"
                                 type="submit"
                         >Signup</CButton>
                     </CCol>
@@ -80,14 +79,14 @@
         },
         methods: {
             ...mapActions(['signup']),
-            signup: function () {
+            submitForm: function () {
                 let data = {
                     username: this.username,
                     email: this.email,
                     password: this.password,
                     passwordConfirm: this.passwordConfirm
                 };
-                this.$store.dispatch('signup', data)
+                this.signup(data)
                     .then(() => this.$router.push('/'))
                     .catch(err => console.log(err))
             }

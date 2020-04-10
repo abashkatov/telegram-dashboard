@@ -3,7 +3,7 @@
         <CContainer>
             <h1>Вход</h1>
             <CForm
-                    @submit.prevent="signin"
+                    @submit.prevent="submitForm"
             >
                 <CRow>
                     <CCol sm="6" class="offset-sm-3">
@@ -29,9 +29,8 @@
                     <CCol sm="6" class="offset-sm-3">
                         <CButton
                                 class="btn-primary"
-                                text="Signin"
                                 type="submit"
-                        >Signup</CButton>
+                        >Signin</CButton>
                     </CCol>
                 </CRow>
             </CForm>
@@ -43,7 +42,7 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
+    import {mapActions, mapGetters} from 'vuex';
     import { CRow, CInput, CCol, CButton, CForm } from '@coreui/vue';
     export default {
         name: "Login",
@@ -53,12 +52,15 @@
                 password : "",
             }
         },
+        computed: {
+            ...mapGetters(['getUser']),
+        },
         components: {
             CRow, CInput, CCol, CButton, CForm
         },
         methods: {
             ...mapActions(['signin']),
-            signin: function () {
+            submitForm: function () {
                 let data = {
                     username: this.username,
                     email: this.email,
