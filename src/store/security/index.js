@@ -60,6 +60,9 @@ export default {
         getUser(state) {
             return state.user;
         },
+        getUserEmail(state) {
+            return state.user.email;
+        },
         isLoggedIn: state => !!state.user.token,
     },
 }
