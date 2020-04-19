@@ -1,68 +1,71 @@
 import Vue from 'vue'
+import Security from "../../service/security/Security.js"
 
-export default {
-    actions: {
-        async signup(context, data) {
-            Vue.prototype.$http({
-                url: process.env.VUE_APP_BASE_URI + '/registration',
-                data: data,
-                method: 'POST'
-            })
-            .then(response => {
-                context.commit('signin', {
-                    user: response.data
-                });
-            })
-            .catch(err => {
-                console.log(err);
+
+export function createSecurity() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const options = {
+        client: Vue.prototype.$http,
+    };
+    if(user.token) {
+        options.token = user.token;
+    }
+    if(user.refreshToken) {
+        options.refreshToken = user.refreshToken;
+    }
+
+    const security = new Security(options);
+
+    return {
+        actions: {
+            async signup(context, data) {
+                security.register(data)
+                    .then(user => {
+                        context.commit('signin', {user});
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        localStorage.removeItem('user');
+                    });
+            },
+            async signin(context, data) {
+                security.login(data)
+                    .then(user => {
+                        context.commit('signin', {user});
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        localStorage.removeItem('user');
+                    });
+            },
+            logout(context) {
+                context.commit('logout');
+            }
+        },
+        mutations: {
+            signin(state, {user}) {
+                state.user = user;
+                localStorage.setItem('user', JSON.stringify(user));
+            },
+            logout: function (state) {
+                state.user = null;
                 localStorage.removeItem('user');
-            });
+            }
         },
-        async signin(context, data) {
-            Vue.prototype.$http({
-                url: process.env.VUE_APP_BASE_URI + '/login',
-                data: data,
-                method: 'POST'
-            })
-            .then(response => {
-                context.commit('signin', {
-                    user: response.data
-                });
-            })
-            .catch(err => {
-                console.log(err);
-                localStorage.removeItem('user');
-            });
+        state: () => ({
+            user : user,
+        }),
+        getters: {
+            getToken(state) {
+                return state.user.token || '';
+            },
+            getUser(state) {
+                return state.user;
+            },
+            getUserEmail(state) {
+                return state.user.email;
+            },
+            isLoggedIn: state => !!state.user.token,
         },
-        logout(context) {
-            context.commit('logout');
-        }
-    },
-    mutations: {
-        signin(state, {user}) {
-            state.user = user;
-            localStorage.setItem('user', JSON.stringify(user));
-            Vue.prototype.$http.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
-        },
-        logout: function (state) {
-            state.user = null;
-            localStorage.removeItem('user');
-            delete Vue.prototype.$http.defaults.headers.common['Authorization'];
-        }
-    },
-    state: {
-        user : JSON.parse(localStorage.getItem('user') || '{}'),
-    },
-    getters: {
-        getToken(state) {
-            return state.user.token || '';
-        },
-        getUser(state) {
-            return state.user;
-        },
-        getUserEmail(state) {
-            return state.user.email;
-        },
-        isLoggedIn: state => !!state.user.token,
-    },
+    }
 }

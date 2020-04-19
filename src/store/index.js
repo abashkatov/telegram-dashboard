@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import security from './security'
+import {createSecurity} from './security'
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-    modules: {
-        security,
-    }
-})
+export function createStore() {
+    return new Vuex.Store({
+        modules: {
+            security: createSecurity(),
+        }
+    });
+}

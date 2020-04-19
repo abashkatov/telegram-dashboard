@@ -1,29 +1,21 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router';
-import store from './store'
+import {createStore} from './store'
 import Axios from 'axios'
 import App from './App.vue'
-import routes from './routes';
+import {createRouter} from './routes';
 import CoreuiVue from '@coreui/vue';
+import { sync } from 'vuex-router-sync';
+
+const store = createStore();
+const router = createRouter();
+sync(store, router);
 
 Vue.use(CoreuiVue);
 Vue.prototype.$http = Axios;
-var user;
-try {
-  user = JSON.parse(localStorage.getItem('user') || '{}');
-} catch(e) {
-  user = {};
-  localStorage.setItem('user', JSON.stringify(user));
-}
 
-if (user.token) {
-  Vue.prototype.$http.defaults.headers.common['Authorization'] = user.token;
-}
-
-Vue.use(VueRouter);
-const router = new VueRouter({
-  routes: routes
-});
+// if (user.token) {
+//   Vue.prototype.$http.defaults.headers.common['Authorization'] = user.token;
+// }
 
 router.beforeEach((to, from, next) => {
   const authRequired = to.matched.some(record => record.meta.requiresAuth);

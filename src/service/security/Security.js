@@ -15,6 +15,8 @@ export default class Security {
         this.token = data.token;
         this.refreshToken = data.refreshToken;
         this.client.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+
+        return data;
     }
     async login({username, password}) {
         const {data} = await this.client.post(
@@ -24,6 +26,8 @@ export default class Security {
         this.token = data.token;
         this.refreshToken = data.refreshToken;
         this.client.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+
+        return data;
     }
 
     logout() {

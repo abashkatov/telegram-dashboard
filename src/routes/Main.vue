@@ -15,10 +15,10 @@
                         <CCard>
                             <CCardBody>
                                 <ul class="list-unstyled">
-                                    <li><router-link
+                                    <li v-if="!isLoggedIn"><router-link
                                             class="btn active mt-3 btn-primary"
                                             to="/login">Sign in</router-link></li>
-                                    <li><router-link
+                                    <li v-if="!isLoggedIn"><router-link
                                             class="btn active mt-3 btn-primary"
                                             to="/register">Sign up</router-link></li>
                                     <li v-if="isLoggedIn"><router-link to="/account">Аккаунт</router-link></li>
