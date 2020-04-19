@@ -4,6 +4,9 @@
             <CSidebarNavTitle>Menu</CSidebarNavTitle>
             <CSidebarNavItem>
                 <CLink class="c-sidebar-nav-link" a="#">Bots</CLink>
+                <router-link
+                        class="c-sidebar-nav-link"
+                        to="/login">Logout</router-link>
             </CSidebarNavItem>
         </CSidebarNav>
     </CSidebar>

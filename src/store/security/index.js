@@ -39,6 +39,7 @@ export function createSecurity() {
                     });
             },
             logout(context) {
+                security.logout();
                 context.commit('logout');
             }
         },
@@ -49,7 +50,6 @@ export function createSecurity() {
             },
             logout: function (state) {
                 state.user = null;
-                localStorage.removeItem('user');
             }
         },
         state: () => ({
