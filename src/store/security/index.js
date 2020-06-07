@@ -6,6 +6,7 @@ export function createSecurity() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const options = {
         client: Vue.prototype.$http,
+        apiBaseUri: process.env.VUE_APP_API_URI,
     };
     if(user.token) {
         options.token = user.token;

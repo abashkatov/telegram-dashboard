@@ -5,9 +5,10 @@ import MockAdapter from "axios-mock-adapter";
 
 test.beforeEach(t => {
     const client = axios.create();
+    const apiBaseUri = process.env.VUE_APP_API_URI;
     t.context.mock = new MockAdapter(client);
-    t.context.security = new Security({client});
-    t.context.mock.onGet(process.env.VUE_APP_BASE_URI + '/api/user')
+    t.context.security = new Security({client, apiBaseUri});
+    t.context.mock.onGet(process.env.VUE_APP_API_URI + '/api/user')
         .reply(200, {});
 });
 test("Get empty user", t => {
@@ -24,7 +25,7 @@ test("Login", async t => {
         token: "TOKEN",
         refreshToken: "REFRESH_TOKEN",
     };
-    t.context.mock.onPost(process.env.VUE_APP_BASE_URI + '/login', LOGIN_REQUEST)
+    t.context.mock.onPost(process.env.VUE_APP_API_URI + '/login', LOGIN_REQUEST)
         .reply(200, LOGIN_RESPONSE);
 
     await t.context.security.login(LOGIN_REQUEST);
@@ -48,7 +49,7 @@ test("Register", async t => {
         token: "TOKEN",
         refreshToken: "REFRESH_TOKEN",
     };
-    t.context.mock.onPost(process.env.VUE_APP_BASE_URI + '/registration', REGISTER_REQUEST)
+    t.context.mock.onPost(process.env.VUE_APP_API_URI + '/registration', REGISTER_REQUEST)
         .reply(200, REGISTER_RESPONSE);
     await t.context.security.register(REGISTER_REQUEST);
     await t.context.security.getUser();

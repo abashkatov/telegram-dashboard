@@ -1,15 +1,17 @@
 import axios from "axios";
 
 export default class Security {
+    #apiBaseUri;
     constructor(options = {}) {
         this.client = options.client || axios.create();
         this.token = options.token;
         this.refreshToken = options.refreshToken;
+        this.#apiBaseUri = options.apiBaseUri;
     }
 
     async register({username, email, password, passwordConfirm}) {
         const {data} = await this.client.post(
-            process.env.VUE_APP_BASE_URI + '/registration',
+            this.#apiBaseUri + '/registration',
             {username, email, password, passwordConfirm}
         );
         this.token = data.token;
@@ -20,7 +22,7 @@ export default class Security {
     }
     async login({username, password}) {
         const {data} = await this.client.post(
-            process.env.VUE_APP_BASE_URI + '/login',
+            this.#apiBaseUri + '/login',
             {username, password}
         );
         this.token = data.token;
@@ -38,7 +40,7 @@ export default class Security {
 
     async getUser() {
         return await this.client.get(
-            process.env.VUE_APP_BASE_URI + '/api/user'
+            this.#apiBaseUri + '/api/user'
         );
     }
 }
